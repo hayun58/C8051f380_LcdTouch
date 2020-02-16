@@ -1,0 +1,141 @@
+C51 COMPILER V9.59.1.0   MAIN                                                              02/15/2020 23:32:04 PAGE 1   
+
+
+C51 COMPILER V9.59.1.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\obj\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c LARGE OPTIMIZE(8,SPEED) INCDIR(.\font;.\LCD;.\sys;.\touch;.\GUI;.
+                    -\USER) DEBUG OBJECTEXTEND TABS(2) OBJECT(.\obj\main.obj)
+
+line level    source
+
+   1          
+   2          #include "initsys.h"
+   3          #include "pic.h"
+   4          
+   5          void Init_Device(void);
+   6          
+   7          void Test_Color(void);
+   8          void MenuScreen();
+   9          void Font_test(void);
+  10          void Pic_test(void);
+  11          void Test_shape(void);
+  12          
+  13          void main(void)
+  14          {
+  15   1        S16 x=0, y=0,  ButtonNum;
+  16   1        Init_Device();
+  17   1        initSYS();
+  18   1      
+  19   1        MenuScreen();
+  20   1      
+  21   1        while(1) {
+  22   2          if(!T_IRQ) {
+  23   3            delay_ms(10);
+  24   3            x = ReadTouchX();
+  25   3            y = ReadTouchY();
+  26   3            LCD_setCursor (25, 100);
+  27   3            ButtonNum= ButtonTouch(x, y);
+  28   3            printf("x=%d y=%d  b=%d   ", x, y,ButtonNum);
+  29   3      
+  30   3            if(ButtonNum==1){  
+  31   4              Test_Color();
+  32   4              MenuScreen();
+  33   4            }
+  34   3            else if(ButtonNum==2){ 
+  35   4              Font_test();
+  36   4              MenuScreen();
+  37   4            }
+  38   3            else if(ButtonNum==3){
+  39   4              Pic_test();
+  40   4              MenuScreen();       
+  41   4            }
+  42   3            else if(ButtonNum==4) {
+  43   4              Test_shape();
+  44   4              MenuScreen();
+  45   4            }
+  46   3          } 
+  47   2        }
+  48   1      }
+  49          
+  50          void MenuScreen() {
+  51   1        LCD_fillScreen(BLACK);
+  52   1        LCD_printHebCenter(0, 10,"תוכנית דוגמא" , 4,RED, BLACK);   //hebrew   
+  53   1        LCD_printHebCenter (0 ,50 ,"שי מלול ואבי חיון",3, WHITE, BLACK);
+  54   1        LCD_clearButton();  
+C51 COMPILER V9.59.1.0   MAIN                                                              02/15/2020 23:32:04 PAGE 2   
+
+  55   1        LCD_drawButton(1,10,  150,60,60, 10, RED,WHITE,"Color",1);
+  56   1        LCD_drawButton(2,80, 150,60,60, 10, BLUE,YELLOW,"Text",2);
+  57   1        LCD_drawButton(3,150, 150,60,60, 10, GREEN,BLACK,"Picture",1);
+  58   1        LCD_drawButton(4,220, 150,60,60, 10, YELLOW,BLACK,"Shape",2);
+  59   1        LCD_setText2Color(WHITE,BLACK);
+  60   1      }
+  61          
+  62          void Test_Color(void) {
+  63   1        LCD_fillScreen(RED);
+  64   1        delay_ms(1000);
+  65   1        LCD_fillScreen(GREEN);
+  66   1        delay_ms(1000); 
+  67   1        LCD_fillScreen(BLUE);
+  68   1        delay_ms(1000);
+  69   1        LCD_fillScreen(BLACK);
+  70   1      }
+  71          
+  72          void Font_test(void) {
+  73   1        int x=1234;
+  74   1        LCD_fillScreen(BLACK);
+  75   1        LCD_print2C(20,30,"abcd",1,WHITE,BLACK);
+  76   1        LCD_print2C(80,30,"xyz",2,WHITE,BLACK);
+  77   1        LCD_printC(20,60,"3.95' ILI9488 320X480",3,YELLOW);
+  78   1        LCD_printC(20,120,"Test 2017-11-23",3,GREEN);
+  79   1        LCD_println("");
+  80   1        LCD_setTextSize(2);
+  81   1        LCD_setText1Color(WHITE);
+  82   1        LCD_println("ABCDabcd1234");
+  83   1        LCD_println("~!@#$%^&*()_+{}:<>?/|-+.");
+  84   1        LCD_setTextSize(2);
+  85   1        LCD_setText1Color(YELLOW);
+  86   1        LCD_printHebln("אבגדהוזחטיכלמנסעפצקרשת");
+  87   1        LCD_println("ABCDE");
+  88   1        printf("x=%d  \n",x);
+  89   1        printf("abcdABCD1234",x);
+  90   1        while(T_IRQ);
+  91   1      }
+  92          
+  93          void Pic_test(void) {
+  94   1        LCD_fillScreen(BLACK);  
+  95   1        LCD_DrawBitmap16(30, 30, gImage_qq);//x,y
+  96   1        LCD_DrawBitmap16(70, 70, gImage_qq);
+  97   1        LCD_DrawBitmap16(110, 110, gImage_qq);
+  98   1        while(T_IRQ);
+  99   1      }
+ 100          
+ 101          void Test_shape(void) {
+ 102   1        LCD_fillScreen(BLACK);
+ 103   1        LCD_drawRect(10,20,100,100,RED); 
+ 104   1        LCD_fillRect(50,100,80,80,BLUE);  
+ 105   1        LCD_fillRoundRect(100,150,40,40,10,YELLOW);   
+ 106   1        LCD_drawCircle(120,120,30,GREEN);
+ 107   1        LCD_fillCircle(120,120,20,WHITE);
+ 108   1        LCD_drawTriangle(110,10,160,200,200,100,RED);
+ 109   1        //LCD_fillTriangle(115,15,195,195,220,95,GREEN);
+ 110   1        LCD_fillTriangle(0,0,0,80,80,0,RED);
+ 111   1        while(T_IRQ);
+ 112   1      }
+ 113          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+C51 COMPILER V9.59.1.0   MAIN                                                              02/15/2020 23:32:04 PAGE 3   
+
+   CODE SIZE        =   1169    ----
+   CONSTANT SIZE    =   3419    ----
+   XDATA SIZE       =   ----       8
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
